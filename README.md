@@ -1,5 +1,7 @@
 # search-images: Find text inside images
 
+![search-images](media/search-for-text.png)
+
 How to solve a (not so theoretical) problem:
 
 > I'm documenting a UI, and a term in the UI has changed.  How do I find all the images that use this term?  I have 100s (or even 1000s) of images, and I don't want to have to open each one!
