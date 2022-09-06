@@ -35,7 +35,7 @@ Once you've successfully run the script from the quickstart, you'll have everyth
 
 1. Finally, run **search-images.py**.
     * Go grab a coffee, go to lunch, or find something else to work on.  
-    * For 600 images, the script took approximately a half hour.
+    * For 600 images, the script took approximately 15 minutes to complete. Your milage may vary.
 
 ## Errors
 

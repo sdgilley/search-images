@@ -17,8 +17,8 @@ import datetime
 # *** PUT YOUR DETAILS HERE  *****
 find_text = "Datastores"                # Text to find in the images
 write_fn = "v1-datastores.csv"          # Put results in this file
-local_repo = 'C:/GitPrivate/azure-docs-pr'  # Where your local rep is located
-online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main'    # Replace last part with your repo name & branch
+local_repo = 'C:/GitPrivate/azure-docs-pr'  # Where your local repo is located
+online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main'    # Replace last part with public repo name & branch
 path_in_repo = '/articles/machine-learning/v1/media'    # Path to your files from root of your repo
 # *** End of details section ***
 
