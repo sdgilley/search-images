@@ -13,7 +13,7 @@ import time
 find_text = "Datastores"                # Text to find in the images
 write_fn = "v1-datastores.csv"             # Put results in this file
 local_repo = 'C:/GitPrivate/azure-docs-pr'  # Where your local rep is located
-repo_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main'    # Replace last part with your repo name & branch
+online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main'    # Replace last part with your repo name & branch
 path_in_repo = '/articles/machine-learning/v1/media'    # Path to your files from root of your repo
 # *** End of details section ***
 
@@ -32,7 +32,7 @@ endpoint = "<ADD-YOUR-ENDPOINT>"
 # *** End of Authenticate - you're now read to run the script.
 # form paths for search
 img_path = local_repo + path_in_repo
-url_path = repo_url + path_in_repo
+url_path = online_url + path_in_repo
 
 # connect to the endpoint
 computervision_client = ComputerVisionClient(endpoint, CognitiveServicesCredentials(subscription_key))
@@ -48,10 +48,9 @@ pr = 0
 found = 0
 
 import datetime
-now = datetime.datetime.now()
 
 # Start search 
-print(str(now))
+print(str(datetime.datetime.now()))
 print("===== Start Searching Files for '" + find_text + "' ====")
 
 import os
@@ -101,5 +100,4 @@ print("==== Done Searching Files for '" + find_text + "' ====")
 print(" Files processed: " + str(pr))
 print(" Files containing '" + find_text + "': " + str(found))
 print(" See results in " + write_fn )
-now = datetime.datetime.now()
-print(str(now))
+print(str(datetime.datetime.now()))
