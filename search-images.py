@@ -1,3 +1,7 @@
+# if not yet installed, uncomment next two lines
+# pip install --upgrade azure-cognitiveservices-vision-computervision
+# pip install pillow
+
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
 from azure.cognitiveservices.vision.computervision.models import OperationStatusCodes
 from azure.cognitiveservices.vision.computervision.models import VisualFeatureTypes
