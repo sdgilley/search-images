@@ -12,10 +12,11 @@ import os
 from PIL import Image
 import sys
 import time
+import datetime
 
 # *** PUT YOUR DETAILS HERE  *****
 find_text = "Datastores"                # Text to find in the images
-write_fn = "v1-datastores.csv"             # Put results in this file
+write_fn = "v1-datastores.csv"          # Put results in this file
 local_repo = 'C:/GitPrivate/azure-docs-pr'  # Where your local rep is located
 online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main'    # Replace last part with your repo name & branch
 path_in_repo = '/articles/machine-learning/v1/media'    # Path to your files from root of your repo
@@ -33,8 +34,9 @@ subscription_key = os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY']
 subscription_key = "<ADD-YOUR-KEY>"
 endpoint = "<ADD-YOUR-ENDPOINT>"
 '''
-# *** End of Authenticate - you're now read to run the script.
-# form paths for search
+# *** End of Authenticate - you're now ready to run the script.
+
+# form the paths 
 img_path = local_repo + path_in_repo
 url_path = online_url + path_in_repo
 
@@ -45,13 +47,14 @@ computervision_client = ComputerVisionClient(endpoint, CognitiveServicesCredenti
 import csv
 # Write results to csv file
 f = open(write_fn, 'w+')
-writer = csv.writer(f)
+# write header
+f.write("file,found")
+f.write("\n")
 
 # initialize counts
 pr = 0
 found = 0
-
-import datetime
+unk = 0
 
 # Start search 
 print(str(datetime.datetime.now()))
@@ -87,7 +90,7 @@ for path,dirs,files in os.walk(img_path):
                 for text_result in read_result.analyze_result.read_results:
                     for line in text_result.lines:
                         if (line.text.find(find_text))>= 0:
-                            f.write(url)
+                            f.write(url + ", yes")
                             f.write("\n")
                             found += 1
                             print("Found: " + url)  
@@ -96,12 +99,19 @@ for path,dirs,files in os.walk(img_path):
             END - Read File - remote
             '''
         except:
-            print("*** ERROR FOR FILE *** " + url)
+            if os.path.splitext(file)[1] != '.png':
+                f.write(url + ", unknown")
+                f.write("\n")
+                unk += 1
+                print("Unknown: " + url)
+                
 
 
 f.close()
+
 print("==== Done Searching Files for '" + find_text + "' ====")
 print(" Files processed: " + str(pr))
 print(" Files containing '" + find_text + "': " + str(found))
-print(" See results in " + write_fn )
+print(" Files to investigate (.svg & .gif): " + str(unk))
+print(" See results in " + write_fn)
 print(str(datetime.datetime.now()))
