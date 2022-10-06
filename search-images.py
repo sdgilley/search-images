@@ -15,12 +15,16 @@ import time
 import datetime
 
 # *** PUT YOUR DETAILS HERE  *****
+# where to search
+# in your local repo, checkout and pull upstream from live branch before you run this scrip.
+local_repo = 'C:/GitPrivate/azure-docs-pr'  # Where your local repo is located.  
+path_in_repo = '/articles/machine-learning/v1/media'    # Path to your files from root of your repo
+online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main'    # Replace last part with public repo name & branch
+# what to search
 find_text = "Datastores"                # Text to find in the images
 write_fn = "v1-datastores.csv"          # Put results in this file
-local_repo = 'C:/GitPrivate/azure-docs-pr'  # Where your local repo is located
-online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main'    # Replace last part with public repo name & branch
-path_in_repo = '/articles/machine-learning/v1/media'    # Path to your files from root of your repo
-# *** End of details section ***
+
+# *** END OF SEARCH DETAILS ***
 
 # *** AUTHENTICATE - use one of these two methods, comment out the other
 # Authenticate with key, endpoint from environment variables (assumes you've exported these)
@@ -48,7 +52,7 @@ import csv
 # Write results to csv file
 f = open(write_fn, 'w+')
 # write header
-f.write("file,found")
+f.write("status,url,file")
 f.write("\n")
 
 # initialize counts
@@ -64,7 +68,9 @@ import os
 # find the file names from the local repo.
 for path,dirs,files in os.walk(img_path):
     for file in files: 
+        
         image_file = os.path.join(path,file)
+        image_file  = image_file .replace("\\","/")
         # create the url for the public repo file (url works much faster than opening the local file)
         url = image_file.replace(img_path, url_path)
 
@@ -90,7 +96,7 @@ for path,dirs,files in os.walk(img_path):
                 for text_result in read_result.analyze_result.read_results:
                     for line in text_result.lines:
                         if (line.text.find(find_text))>= 0:
-                            f.write(url + ", yes")
+                            f.write("found, " + url  + ", " + image_file)
                             f.write("\n")
                             found += 1
                             print("Found: " + url)  
@@ -100,13 +106,11 @@ for path,dirs,files in os.walk(img_path):
             '''
         except:
             if os.path.splitext(file)[1] != '.png':
-                f.write(url + ", unknown")
+                f.write("unknown, " + url + ", " + image_file)
                 f.write("\n")
                 unk += 1
                 print("Unknown: " + url)
                 
-
-
 f.close()
 
 print("==== Done Searching Files for '" + find_text + "' ====")
