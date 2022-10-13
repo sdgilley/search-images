@@ -16,13 +16,13 @@ import datetime
 
 # *** PUT YOUR DETAILS HERE  *****
 # where to search
-# in your local repo, checkout and pull upstream from live branch before you run this scrip.
+# in your local repo, checkout and pull upstream from main branch before you run this scrip.
 local_repo = 'C:/GitPrivate/azure-docs-pr'  # Where your local repo is located.  
 path_in_repo = '/articles/machine-learning/v1/media'    # Path to your files from root of your repo
 online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main'    # Replace last part with public repo name & branch
 # what to search
-find_text = "Endpoints"                # Text to find in the images
-write_fn = "Endpoints.csv"          # Put results in this file
+find_text = "Data Labeling"                # Text to find in the images
+write_fn = "DataLabeling.csv"          # Put results in this file
 
 # *** END OF SEARCH DETAILS ***
 
