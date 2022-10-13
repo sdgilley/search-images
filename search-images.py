@@ -21,8 +21,8 @@ local_repo = 'C:/GitPrivate/azure-docs-pr'  # Where your local repo is located.
 path_in_repo = '/articles/machine-learning/v1/media'    # Path to your files from root of your repo
 online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main'    # Replace last part with public repo name & branch
 # what to search
-find_text = "Datastores"                # Text to find in the images
-write_fn = "v1-datastores.csv"          # Put results in this file
+find_text = "Endpoints"                # Text to find in the images
+write_fn = "Endpoints.csv"          # Put results in this file
 
 # *** END OF SEARCH DETAILS ***
 
@@ -61,8 +61,10 @@ found = 0
 unk = 0
 
 # Start search 
-print(str(datetime.datetime.now()))
+st = time.time()
+
 print("===== Start Searching Files for '" + find_text + "' ====")
+print(str(datetime.datetime.now()))
 
 import os
 # find the file names from the local repo.
@@ -113,9 +115,12 @@ for path,dirs,files in os.walk(img_path):
                 
 f.close()
 
+et = time.time()
+elapsed = et - st
+
 print("==== Done Searching Files for '" + find_text + "' ====")
 print(" Files processed: " + str(pr))
 print(" Files containing '" + find_text + "': " + str(found))
 print(" Files to investigate (.svg & .gif): " + str(unk))
 print(" See results in " + write_fn)
-print(str(datetime.datetime.now()))
+print(" Execution time: ", elapsed, " seconds")
