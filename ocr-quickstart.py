@@ -56,12 +56,12 @@ while True:
         break
     time.sleep(1)
 
-# my modification:  Print if the word "Datastores" appears in the image
+# my modification:  Print if the words "Data Labeling" appear in the image
 if read_result.status == OperationStatusCodes.succeeded:
     for text_result in read_result.analyze_result.read_results:
         for line in text_result.lines:
-            if (line.text.find("Datastores"))>= 0:
-                print("*** Found ",line.text, "! ***")
+            if (line.text.find("Data Labeling"))>= 0:
+                print("*** Found: ", line.text, "! ***")
 
 print()
 '''
