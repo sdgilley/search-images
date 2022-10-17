@@ -9,8 +9,8 @@
 
 # *** PUT YOUR DETAILS HERE  *****
 # where to search
-# Script works for 
-path_in_repo = '/articles/machine-learning/v1/media'    # Path to your files from root of your repo
+# Point to any media directory in MicrosoftDocs/azure-docs/
+path_in_repo = 'articles/machine-learning/v1/media'    # Path to your files from MicrosoftDocs/azure-docs/
 # what to search
 find_text = "Data Labeling"            # Text to find in the images
 write_fn = "DataLabeling.csv"          # Put results in this file
