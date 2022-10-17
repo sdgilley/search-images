@@ -63,7 +63,7 @@ st = time.time()
 print("===== Start Searching Files for '" + find_text + "' ====")
 print(str(datetime.datetime.now()))
 
-# hard-coded to work with azure-docs
+# hard-coded to work with azure-docs.  perhaps change this to be configurable as well
 repo = g.get_repo("MicrosoftDocs/azure-docs")
 online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main/'   
 
