@@ -1,4 +1,5 @@
 # https://docs.microsoft.com/en-us/azure/cognitive-services/computer-vision/quickstarts-sdk/client-library?tabs=visual-studio&pivots=programming-language-python
+# This script needs the following packages:
 # pip install --upgrade azure-cognitiveservices-vision-computervision
 # pip install pillow
 
@@ -39,8 +40,8 @@ This API call can also extract handwriting style text (not shown).
 '''
 print("===== Read File - remote =====")
 # Get an image with text
-read_image_url = "https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main/articles/machine-learning/media/how-to-create-labeling-projects/add-label.png"
-# read_image_url = "https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main/articles/machine-learning/media/how-to-create-attach-studio/create-schedule.png"
+# read_image_url = "https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main/articles/machine-learning/media/how-to-create-labeling-projects/add-label.png"
+read_image_url = "https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main/articles/machine-learning/media/how-to-create-attach-studio/create-schedule.png"
 # Call API with URL and raw response (allows you to get the operation location)
 read_response = computervision_client.read(read_image_url,  raw=True)
 

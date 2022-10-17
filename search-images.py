@@ -1,6 +1,20 @@
-# if not yet installed, uncomment next two lines
+# This script accesses environment variables 
+#      GH_ACCESS_TOKEN, COMPUTER_VISION_ENDPOINT, COMPUTER_VISION_SUBSCRIPTION_KEY
+# see readme for details
+
+# This script needs the following packages:
 # pip install --upgrade azure-cognitiveservices-vision-computervision
 # pip install pillow
+# pip install PyGithub  
+
+# *** PUT YOUR DETAILS HERE  *****
+# where to search
+# Script works for 
+path_in_repo = '/articles/machine-learning/v1/media'    # Path to your files from root of your repo
+# what to search
+find_text = "Data Labeling"            # Text to find in the images
+write_fn = "DataLabeling.csv"          # Put results in this file
+# *** END OF SEARCH DETAILS ***
 
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
 from azure.cognitiveservices.vision.computervision.models import OperationStatusCodes
@@ -13,36 +27,19 @@ from PIL import Image
 import sys
 import time
 import datetime
-
-# *** PUT YOUR DETAILS HERE  *****
-# where to search
-# in your local repo, checkout and pull upstream from main branch before you run this scrip.
-local_repo = 'C:/GitPrivate/azure-docs-pr'  # Where your local repo is located.  
-path_in_repo = '/articles/machine-learning/v1/media'    # Path to your files from root of your repo
-online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main'    # Replace last part with public repo name & branch
-# what to search
-find_text = "Data Labeling"                # Text to find in the images
-write_fn = "DataLabeling.csv"          # Put results in this file
-
-# *** END OF SEARCH DETAILS ***
-
-# *** AUTHENTICATE - use one of these two methods, comment out the other
-# Authenticate with key, endpoint from environment variables (assumes you've exported these)
 import os
+from github import Github
+
+# *** AUTHENTICATE 
+# Get GH access token from environment variables (assumes you've exported this)
+token =  os.environ['GH_ACCESS_TOKEN']
+g = Github(token)
+
+# Authenticate with key, endpoint from environment variables (assumes you've exported these)
 endpoint = os.environ['COMPUTER_VISION_ENDPOINT']
 subscription_key = os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY']
-
-# Or uncomment and fill in your values endpoint and key from the Azure portal. 
-'''
-# Authenticate with key, endpoint from Cognitive Services
-subscription_key = "<ADD-YOUR-KEY>"
-endpoint = "<ADD-YOUR-ENDPOINT>"
-'''
 # *** End of Authenticate - you're now ready to run the script.
 
-# form the paths 
-img_path = local_repo + path_in_repo
-url_path = online_url + path_in_repo
 
 # connect to the endpoint
 computervision_client = ComputerVisionClient(endpoint, CognitiveServicesCredentials(subscription_key))
@@ -52,7 +49,7 @@ import csv
 # Write results to csv file
 f = open(write_fn, 'w+')
 # write header
-f.write("status,url,file")
+f.write("status, url")
 f.write("\n")
 
 # initialize counts
@@ -66,19 +63,21 @@ st = time.time()
 print("===== Start Searching Files for '" + find_text + "' ====")
 print(str(datetime.datetime.now()))
 
-import os
-# find the file names from the local repo.
-for path,dirs,files in os.walk(img_path):
-    for file in files: 
-        
-        image_file = os.path.join(path,file)
-        image_file  = image_file .replace("\\","/")
-        # create the url for the public repo file (url works much faster than opening the local file)
-        url = image_file.replace(img_path, url_path)
+# hard-coded to work with azure-docs
+repo = g.get_repo("MicrosoftDocs/azure-docs")
+online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main/'   
+
+contents = repo.get_contents(path_in_repo)
+while contents:
+    file_content = contents.pop(0)
+    if file_content.type == "dir":
+        contents.extend(repo.get_contents(file_content.path))
+    else:
+        img_url = online_url + file_content.path
 
         try:
             # Call API with URL and raw response (allows you to get the operation location)
-            read_response = computervision_client.read(url,  raw=True)
+            read_response = computervision_client.read(img_url,  raw=True)
 
             # Get the operation location (URL with an ID at the end) from the response
             read_operation_location = read_response.headers["Operation-Location"]
@@ -98,20 +97,20 @@ for path,dirs,files in os.walk(img_path):
                 for text_result in read_result.analyze_result.read_results:
                     for line in text_result.lines:
                         if (line.text.find(find_text))>= 0:
-                            f.write("found, " + url  + ", " + image_file)
+                            f.write("found, " + img_url )
                             f.write("\n")
                             found += 1
-                            print("Found: " + url)  
+                            print("Found: " + img_url)  
 
             '''
             END - Read File - remote
             '''
         except:
-            if os.path.splitext(file)[1] != '.png':
-                f.write("unknown, " + url + ", " + image_file)
+            if os.path.splitext(file_content.path)[1] != '.png':
+                f.write("unknown, " + img_url)
                 f.write("\n")
                 unk += 1
-                print("Unknown: " + url)
+                print("Unknown: " + img_url)
                 
 f.close()
 
