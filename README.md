@@ -22,9 +22,9 @@ The **search-images.py** Python script searches for text inside images! It's set
 * Create a [GitHub personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). In step 8, set the scope to **repo**.
 
 * Create the following environment variables to be accessed when you run the Python script:
-    * GH_ACCESS_TOKEN - the token you just created from Github
-    * COMPUTER_VISION_ENDPOINT - the endpoint you created from the OCR Quickstart
-    * COMPUTER_VISION_SUBSCRIPTION_KEY - the key you created from the OCR Quickstart
+    * `GH_ACCESS_TOKEN` - the token you created from Github
+    * `COMPUTER_VISION_ENDPOINT` - the endpoint you created from the OCR Quickstart
+    * `COMPUTER_VISION_SUBSCRIPTION_KEY` - the key you created from the OCR Quickstart
 
 ## Run the script
 

@@ -3,9 +3,9 @@
 # see readme for details
 
 # This script needs the following packages:
-# pip install --upgrade azure-cognitiveservices-vision-computervision
-# pip install pillow
-# pip install PyGithub  
+#     pip install --upgrade azure-cognitiveservices-vision-computervision
+#     pip install pillow
+#     pip install PyGithub  
 
 # *** PUT YOUR DETAILS HERE  *****
 # where to search
