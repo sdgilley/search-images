@@ -19,7 +19,7 @@ The **search-images.py** Python script searches for text inside images! It's set
     pip install PyGithub  
     ```
 
-* Create a [GitHub personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). In step 8, set the scope to **repo**.
+* Create a [GitHub personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). In step 11, select **Public Repositories (read-only)** to search through that public repo, azure-docs.  If you want to search the private repo or your fork, specify the access details to that repository. 
 
 * Create the following environment variables to be accessed when you run the Python script:
     * `GH_ACCESS_TOKEN` - the token you created from Github
