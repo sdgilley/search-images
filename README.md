@@ -8,7 +8,7 @@ How to solve a (not so theoretical) problem:
 
 The **search-images.py** Python script searches for text inside images! It's set up to search for images in any **media** folder inside [MicrosoftDocs/azure-docs](https://github.com/MicrosoftDocs/azure-docs).  It creates a .csv file listing the files that match your search phrase.  
 
-## Prerequisite
+## Prerequisites
 
 * Create a [Computer Vision resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesComputerVision) in the Azure portal to get your key and endpoint. After it deploys, click **Go to resource**.
 
@@ -41,7 +41,7 @@ The **search-images.py** Python script searches for text inside images! It's set
     ```console
     pip install PyGithub  
     ```
-    
+
 > 📘 BEFORE YOU START - Clean up your images folder!
 > 
 > Save yourself time by first deleting images that are no longer in use.  For Microsoft articles, use the [Repo cleanup tool](https://review.learn.microsoft.com/help/contribute/clean-repo-tool?branch=main) to get rid of orphaned images.
