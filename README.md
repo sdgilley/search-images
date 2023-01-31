@@ -10,14 +10,12 @@ The **search-images.py** Python script searches for text inside images! It's set
 
 ## Prerequisite
 
-* Run [Quickstart: Optical character recognition (OCR)](https://docs.microsoft.com/en-us/azure/cognitive-services/computer-vision/quickstarts-sdk/client-library?tabs=visual-studio&pivots=programming-language-python
+* Create a [Computer Vision resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesComputerVision) in the Azure portal to get your key and endpoint. After it deploys, click **Go to resource**.
+
+    * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service. Add your key and endpoint as environment variables as shown below.
+    * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
 ).  
 
-* Install the PyGithub package
-
-    ```console
-    pip install PyGithub  
-    ```
 
 * Create a [GitHub personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). In step 11, select **Public Repositories (read-only)** to search through that public repo, azure-docs.  If you want to search the private repo or your fork, specify the access details to that repository. 
 
@@ -26,7 +24,24 @@ The **search-images.py** Python script searches for text inside images! It's set
     * `COMPUTER_VISION_ENDPOINT` - the endpoint you created from the OCR Quickstart
     * `COMPUTER_VISION_SUBSCRIPTION_KEY` - the key you created from the OCR Quickstart
 
+* Install the OCR client library.
 
+    ```console
+    pip install --upgrade azure-cognitiveservices-vision-computervision
+    ```
+
+    Also install the Pillow library.
+
+    ```console
+    pip install pillow
+    ``` 
+
+* Install the PyGithub package
+
+    ```console
+    pip install PyGithub  
+    ```
+    
 > 📘 BEFORE YOU START - Clean up your images folder!
 > 
 > Save yourself time by first deleting images that are no longer in use.  For Microsoft articles, use the [Repo cleanup tool](https://review.learn.microsoft.com/help/contribute/clean-repo-tool?branch=main) to get rid of orphaned images.
