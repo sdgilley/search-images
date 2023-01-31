@@ -13,9 +13,7 @@ The **search-images.py** Python script searches for text inside images! It's set
 * Create a [Computer Vision resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesComputerVision) in the Azure portal to get your key and endpoint. After it deploys, click **Go to resource**.
 
     * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service. Add your key and endpoint as environment variables as shown below.
-    * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
-).  
-
+    * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production. 
 
 * Create a [GitHub personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). In step 11, select **Public Repositories (read-only)** to search through that public repo, azure-docs.  If you want to search the private repo or your fork, specify the access details to that repository. 
 
