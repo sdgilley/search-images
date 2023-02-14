@@ -12,7 +12,7 @@
 # Point to any media directory in MicrosoftDocs/azure-docs/
 path_in_repo = 'articles/machine-learning/v1/media'    # Path to your files from MicrosoftDocs/azure-docs/
 # what to search
-find_text = "Data Labeling"            # Text to find in the images
+find_text = "Data Labeling"            # Text to find in the images.  (text is case sensitive)
 write_fn = "DataLabeling.csv"          # Put results in this file
 # *** END OF SEARCH DETAILS ***
 
