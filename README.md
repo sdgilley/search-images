@@ -22,6 +22,8 @@ The **search-images.py** Python script searches for text inside images! It's set
     * `COMPUTER_VISION_ENDPOINT` - the endpoint you created from the OCR Quickstart
     * `COMPUTER_VISION_SUBSCRIPTION_KEY` - the key you created from the OCR Quickstart
 
+* If you want to run this in VS Code, see [Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial)
+
 * Install the OCR client library.
 
     ```console
