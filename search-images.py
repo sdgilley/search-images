@@ -10,10 +10,10 @@
 # *** PUT YOUR DETAILS HERE  *****
 # where to search
 # Point to any media directory in MicrosoftDocs/azure-docs/
-path_in_repo = 'articles/machine-learning/v1/media'    # Path to your files from MicrosoftDocs/azure-docs/
+path_in_repo = 'articles/machine-learning/media'    # Path to your files from MicrosoftDocs/azure-docs/
 # what to search
-find_text = "Data Labeling"            # Text to find in the images.  (text is case sensitive)
-write_fn = "DataLabeling.csv"          # Put results in this file
+find_text = "Recent resources"            # Text to find in the images.  (text is case sensitive)
+write_fn = "homepage.csv"          # Put results in this file
 # *** END OF SEARCH DETAILS ***
 
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
@@ -32,12 +32,29 @@ from github import Github
 
 # *** AUTHENTICATE 
 # Get GH access token from environment variables (assumes you've exported this)
-token =  os.environ['GH_ACCESS_TOKEN']
+# try to read GH_ACCESS_TOKEN from environment variables
+# if not there, tell user to set it
+try:
+    token = os.environ['GH_ACCESS_TOKEN']   
+except:
+    print("Please set GH_ACCESS_TOKEN environment variable")
+    sys.exit()  
+
 g = Github(token)
 
 # Authenticate with key, endpoint from environment variables (assumes you've exported these)
-endpoint = os.environ['COMPUTER_VISION_ENDPOINT']
-subscription_key = os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY']
+# if not there, tell user to set it
+try:    
+    endpoint = os.environ['COMPUTER_VISION_ENDPOINT']
+except:
+    print("Please set COMPUTER_VISION_ENDPOINT environment variable")
+    sys.exit()
+
+try:
+    subscription_key = os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY']
+except:
+    print("Please set COMPUTER_VISION_SUBSCRIPTION_KEY environment variable")
+    sys.exit()
 # *** End of Authenticate - you're now ready to run the script.
 
 
