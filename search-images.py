@@ -9,11 +9,22 @@
 
 # *** PUT YOUR DETAILS HERE  *****
 # where to search
-# Point to any media directory in MicrosoftDocs/azure-docs/
-path_in_repo = 'articles/machine-learning/media'    # Path to your files from MicrosoftDocs/azure-docs/
+
 # what to search
-find_text = "Recent resources"            # Text to find in the images.  (text is case sensitive)
-write_fn = "homepage.csv"          # Put results in this file
+find_text = ["Power BI dataset"]            # Text to find in the images.  
+case_sensitive = False                    # True or False
+write_fn = "pbi-dataset.csv"          # Put results in this file
+write_md = "pbi-dataset.md"
+
+# configurer repo
+# repo_name = "MicrosoftDocs/azure-docs"  # repo to search
+# online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main/'   
+# path_in_repo = 'articles/machine-learning/media'  # point to the media dir you want to search
+
+repo_name = "MicrosoftDocs/fabric-docs"
+path_in_repo = 'docs/data-science/media' 
+online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/fabric-docs/main/' 
+
 # *** END OF SEARCH DETAILS ***
 
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
@@ -41,6 +52,7 @@ except:
     sys.exit()  
 
 g = Github(token)
+repo = g.get_repo(repo_name)
 
 # Authenticate with key, endpoint from environment variables (assumes you've exported these)
 # if not there, tell user to set it
@@ -69,6 +81,9 @@ f = open(write_fn, 'w+')
 f.write("status, url")
 f.write("\n")
 
+m = open(write_md, 'w+')
+m.write("previews of the found files") 
+m.write("\n") # add previews to an md file
 # initialize counts
 pr = 0
 found = 0
@@ -77,12 +92,10 @@ unk = 0
 # Start search 
 st = time.time()
 
-print("===== Start Searching Files for '" + find_text + "' ====")
+print(f"===== Start Searching Files for {find_text} in {repo_name} ====")
 print(str(datetime.datetime.now()))
 
-# hard-coded to work with azure-docs.  perhaps change this to be configurable as well
-repo = g.get_repo("MicrosoftDocs/azure-docs")
-online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main/'   
+
 
 contents = repo.get_contents(path_in_repo)
 while contents:
@@ -113,11 +126,16 @@ while contents:
             if read_result.status == OperationStatusCodes.succeeded:
                 for text_result in read_result.analyze_result.read_results:
                     for line in text_result.lines:
-                        if (line.text.find(find_text))>= 0:
-                            f.write("found, " + img_url )
-                            f.write("\n")
-                            found += 1
-                            print("Found: " + img_url)  
+                        for text in find_text:
+                            txt_found = line.text.find(text) >= 0 if case_sensitive else line.text.lower().find(text.lower()) >= 0
+                            if txt_found :
+                                f.write(f"{text}: {img_url}")
+                                f.write("\n")
+                                m.write(f"{text}: {img_url}")
+                                m.write(f"<img src='{img_url}' width=500 >")
+                                m.write("\n\n")
+                                found += 1
+                                print(f"{text}: {img_url}")  
 
             '''
             END - Read File - remote
@@ -130,13 +148,14 @@ while contents:
                 print("Unknown: " + img_url)
                 
 f.close()
+m.close()
 
 et = time.time()
-elapsed = et - st
+elapsed = (et - st)/60
 
-print("==== Done Searching Files for '" + find_text + "' ====")
-print(" Files processed: " + str(pr))
-print(" Files containing '" + find_text + "': " + str(found))
-print(" Files to investigate (.svg & .gif): " + str(unk))
-print(" See results in " + write_fn)
-print(" Execution time: ", elapsed, " seconds")
+print(f"===== Done searching files for {find_text} in {repo_name} ====")
+print(f" Files processed:  {pr}")
+print(f" Files containing {find_text}: {found}")
+print(f" Files to investigate (.svg & .gif): {unk}")
+print(f" See results in {write_fn}")
+print(f" Execution time: {elapsed} minutes")
