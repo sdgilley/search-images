@@ -1,0 +1,9 @@
+name: myenv
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  - pip:
+    - PyGithub
+    - pillow
+    - azure-cognitiveservices-vision-computervision
