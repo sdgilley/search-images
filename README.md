@@ -22,23 +22,15 @@ The **search-images.py** Python script searches for text inside images! It's set
     * `COMPUTER_VISION_ENDPOINT` - the endpoint you created from the OCR Quickstart
     * `COMPUTER_VISION_SUBSCRIPTION_KEY` - the key you created from the OCR Quickstart
 
-* If you want to run this in VS Code, see [Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial)
+* Use Codespaces to skip setting up your local computer - the button below creates a codespace with all required libraries installed. Save your variables as [Codespace secrets](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces), with access to sdgilley/search-images for each environment variable above.
 
-* Install the OCR client library.
+    [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/sdgilley/learn-tools?quickstart=1)
+
+* If you want to run this in VS Code locally, see [Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial).  You'll need to install the following packages:
 
     ```console
     pip install --upgrade azure-cognitiveservices-vision-computervision
-    ```
-
-    Also install the Pillow library.
-
-    ```console
     pip install pillow
-    ``` 
-
-* Install the PyGithub package
-
-    ```console
     pip install PyGithub  
     ```
 
