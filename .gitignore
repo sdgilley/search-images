@@ -1,3 +1,6 @@
+testing/
+outputs/
+archive/
 # .sh files
 *.sh
 
