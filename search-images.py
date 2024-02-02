@@ -6,13 +6,12 @@
 #     pip install azure-ai-vision-imageanalysis
 #     pip install pillow
 #     pip install PyGithub  
-
 # *** PUT YOUR DETAILS HERE  *****
 
 # what to search
-find_text = ["Power BI dataset"]            # Text to find in the images.  
+find_text = ["Microsoft"]            # Text to find in the images.  
 case_sensitive = False                    # True or False
-csv_fn = "results/pbi-dataset.csv"          # Put results in this file
+csv_fn = "msft.csv"          # Put results in this file
 
 # where to search
 repo_name = "MicrosoftDocs/azure-docs"  # repo to search
@@ -29,22 +28,22 @@ media_path = 'articles/machine-learning/v1/media'  # point to the media dir you 
 md_fn = csv_fn.split(".")[0] + ".md"  # Put previews in markdown file
 online_url = f"https://raw.githubusercontent.com/{repo_name}/{branch}/" # to get raw images from the repo  
 
-import azure.ai.vision as sdk
+from azure.ai.vision.imageanalysis import ImageAnalysisClient
+from azure.ai.vision.imageanalysis.models import VisualFeatures
+from azure.core.credentials import AzureKeyCredential
 import os
 import time
 import datetime
 from auth import get_auth_response
 
 # get vision tokens and the repo
-endpoint, subscription_key, repo = get_auth_response(repo_name)
+endpoint, key, repo = get_auth_response(repo_name)
 
-# Set up the vision service
-service_options = sdk.VisionServiceOptions(endpoint, subscription_key)
-analysis_options = sdk.ImageAnalysisOptions()
-analysis_options.features = (
-    sdk.ImageAnalysisFeature.TEXT
+# Create an Image Analysis client
+client = ImageAnalysisClient(
+    endpoint=endpoint,
+    credential=AzureKeyCredential(key)
 )
-analysis_options.language = "en"
 
 
 # open csv file to store results
@@ -73,17 +72,20 @@ while contents:
     if file_content.type == "dir":
         contents.extend(repo.get_contents(file_content.path))
     else:
-        img_url = online_url + file_content.path
-        vision_source = sdk.VisionSource(url=img_url)
-        image_analyzer = sdk.ImageAnalyzer(service_options, vision_source, analysis_options)
-        result = image_analyzer.analyze()
+        img_url = online_url + file_content.path       
     
-        # If find_text is found, add the image to the csv file
         try:
-            if result.reason == sdk.ImageAnalysisResultReason.ANALYZED:
+            # analyze image
+            result = client.analyze(
+                image_url=img_url,
+                visual_features=[VisualFeatures.READ],
+            )   
+            # if there are results
+            if result.read is not None:
                 pr += 1
+                # If find_text is found, add the image to the csv and md files
                 if result.text is not None:
-                    for line in result.text.lines:
+                    for line in result.read.blocks[0].lines:
                         for text in find_text:
                             txt_found = line.text.find(text) >= 0 if case_sensitive else line.text.lower().find(text.lower()) >= 0
                             if txt_found :

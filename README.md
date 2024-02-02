@@ -19,8 +19,9 @@ You can search for multiple terms.  You can also specify whether the search is c
 
 * Create a [GitHub personal access token (classic)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic).
 
-    * In step 11, select **Public Repositories (read-only)** to search through any public repo, such as azure-docs.  If you want to search a private repo or a fork, specify the access details to that repository in the token.  
+    * To search from a public repo (such as azure-docs), you can leave all options unchecked.  Modify as necessary if you want to read a private repo instead.
     * Make sure to copy the token as soon as it's created.  Once you move away, you'll never see it again.
+    * AFTER you've copied the token, use the **Configure SSO** dropdown to authorize **MicrosoftDocs**.   
 
 * Create the following environment variables to be accessed when you run the Python script:
     * `GH_ACCESS_TOKEN` - the token you created from Github
@@ -57,9 +58,6 @@ Results are printed to the screen, so that you can watch the progress.  They are
 
 * If the file contains the search term, it is added to the results with status showing the term found.
 * If the file can't be processed, it is added to the results with a status of "unknown".  You'll need to manually inspect these files.
-* If the file doesn't contain the search term, you won't see it it in the results.
+* If an image doesn't contain the search term, you won't see it it in the results.
 
 
-## Future directions
-
-* You could adapt the script to process local files, following the example from [OCR: Read File using the Read API, extract text - local](https://github.com/Azure-Samples/cognitive-services-quickstart-code/blob/master/python/ComputerVision/ComputerVisionQuickstart.py#L99). Note the sleep time in that loop is 10 times larger than for online files. 
