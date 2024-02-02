@@ -1,5 +1,5 @@
 testing/
-outputs/
+results/
 archive/
 # .sh files
 *.sh

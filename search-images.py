@@ -2,7 +2,7 @@
 #      GH_ACCESS_TOKEN, COMPUTER_VISION_ENDPOINT, COMPUTER_VISION_SUBSCRIPTION_KEY
 # see readme for details
 
-# This script needs the following packages:
+# This script uses the following packages:
 #     pip install --upgrade azure-cognitiveservices-vision-computervision
 #     pip install pillow
 #     pip install PyGithub  
@@ -12,8 +12,7 @@
 # what to search
 find_text = ["Power BI dataset"]            # Text to find in the images.  
 case_sensitive = False                    # True or False
-write_fn = "pbi-dataset.csv"          # Put results in this file
-write_md = "pbi-dataset.md"
+csv_fn = "results/pbi-dataset.csv"          # Put results in this file
 
 # where to search
 repo_name = "MicrosoftDocs/azure-docs"  # repo to search
@@ -26,48 +25,20 @@ media_path = 'articles/machine-learning/v1/media'  # point to the media dir you 
 
 # *** END OF SEARCH DETAILS ***
 
-online_url = f"https://raw.githubusercontent.com/{repo_name}/{branch}/"   
+# form vars from search details above
+md_fn = csv_fn.split(".")[0] + ".md"  # Put previews in markdown file
+online_url = f"https://raw.githubusercontent.com/{repo_name}/{branch}/" # to get raw images from the repo  
 
-
-import os
 import azure.ai.vision as sdk
-
 import os
-import sys
 import time
 import datetime
-import os
-from github import Github
+from auth import get_auth_response
 
+# get vision tokens and the repo
+endpoint, subscription_key, repo = get_auth_response(repo_name)
 
-# *** AUTHENTICATE 
-# Get GH access token from environment variables (assumes you've exported this)
-# try to read GH_ACCESS_TOKEN from environment variables
-# if not there, tell user to set it
-try:
-    token = os.environ['GH_ACCESS_TOKEN']   
-except:
-    print("Please set GH_ACCESS_TOKEN environment variable")
-    sys.exit()  
-
-g = Github(token)
-repo = g.get_repo(repo_name)
-
-# Authenticate with key, endpoint from environment variables (assumes you've exported these)
-# if not there, tell user to set it
-try:    
-    endpoint = os.environ['COMPUTER_VISION_ENDPOINT']
-except:
-    print("Please set COMPUTER_VISION_ENDPOINT environment variable")
-    sys.exit()
-
-try:
-    subscription_key = os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY']
-except:
-    print("Please set COMPUTER_VISION_SUBSCRIPTION_KEY environment variable")
-    sys.exit()
-# *** End of Authenticate - you're now ready to run the script.
-
+# Set up the vision service
 service_options = sdk.VisionServiceOptions(endpoint, subscription_key)
 analysis_options = sdk.ImageAnalysisOptions()
 analysis_options.features = (
@@ -79,12 +50,11 @@ analysis_options.language = "en"
 # open csv file to store results
 import csv
 # Write results to csv file
-f = open(write_fn, 'w+')
+f = open(csv_fn, 'w+')
 # write header
-f.write("status,url")
-f.write("\n")
+f.write("status,url\n")
 # add previews to an md file
-m = open(write_md, 'w+')
+m = open(md_fn, 'w+')
 m.write("# Previews of the found files\n") 
 # initialize counts
 pr = 0
@@ -139,6 +109,6 @@ elapsed = (et - st)/60
 print(f"===== Done searching files for {find_text} in {repo_name} ====")
 print(f" Files processed:  {pr}")
 print(f" Files containing {find_text}: {found}")
-print(f" Files to investigate (.gif): {unk}")
-print(f" See results in {write_fn}")
+print(f" Files to investigate: {unk}")
+print(f" See results in {csv_fn} and {md_fn}")
 print(f" Execution time: {elapsed} minutes")
