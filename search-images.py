@@ -8,7 +8,6 @@
 #     pip install PyGithub  
 
 # *** PUT YOUR DETAILS HERE  *****
-# where to search
 
 # what to search
 find_text = ["Power BI dataset"]            # Text to find in the images.  
@@ -16,16 +15,19 @@ case_sensitive = False                    # True or False
 write_fn = "pbi-dataset.csv"          # Put results in this file
 write_md = "pbi-dataset.md"
 
-# configure repo
+# where to search
 repo_name = "MicrosoftDocs/azure-docs"  # repo to search
-online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/azure-docs/main/'   
-path_in_repo = 'articles/machine-learning/v1/media'  # point to the media dir you want to search
-
+branch = "main"
+media_path = 'articles/machine-learning/v1/media'  # point to the media dir you want to search
+# or here's fabric:
 # repo_name = "MicrosoftDocs/fabric-docs"
-# path_in_repo = 'docs/data-science/media' 
-# online_url = 'https://raw.githubusercontent.com/MicrosoftDocs/fabric-docs/main/' 
+# branch = "main"
+# media_path = 'docs/data-science/media' 
 
 # *** END OF SEARCH DETAILS ***
+
+online_url = f"https://raw.githubusercontent.com/{repo_name}/{branch}/"   
+
 
 import os
 import azure.ai.vision as sdk
@@ -95,7 +97,7 @@ st = time.time()
 print(f"===== Start Searching Files for {find_text} in {repo_name} ====")
 print(str(datetime.datetime.now()))
 
-contents = repo.get_contents(path_in_repo)
+contents = repo.get_contents(media_path)
 while contents:
     file_content = contents.pop(0)
     if file_content.type == "dir":
