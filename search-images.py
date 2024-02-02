@@ -79,7 +79,7 @@ import csv
 # Write results to csv file
 f = open(write_fn, 'w+')
 # write header
-f.write("status, url")
+f.write("status,url")
 f.write("\n")
 # add previews to an md file
 m = open(write_md, 'w+')
@@ -122,7 +122,7 @@ while contents:
                                 m.write("\n\n")
                                 found += 1 
         except:
-                if os.path.splitext(file_content.path)[1] != '.png':
+                if os.path.splitext(file_content.path)[1] != '.png': # dont care about png with no text
                     f.write("unknown, " + img_url)
                     f.write("\n")
                     unk += 1
