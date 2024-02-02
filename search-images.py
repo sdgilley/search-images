@@ -8,10 +8,10 @@
 #     pip install PyGithub  
 # *** PUT YOUR DETAILS HERE  *****
 
-# what to search
-find_text = ["Microsoft"]            # Text to find in the images.  
-case_sensitive = False                    # True or False
-csv_fn = "msft.csv"          # Put results in this file
+# what to search for - can be one or more terms
+find_text = ["regression"]            # Text to find in the images.  
+case_sensitive = True                    # True or False
+csv_fn = "regression.csv"          # Put results in this file
 
 # where to search
 repo_name = "MicrosoftDocs/azure-docs"  # repo to search
@@ -54,16 +54,16 @@ f = open(csv_fn, 'w+')
 f.write("status,url\n")
 # add previews to an md file
 m = open(md_fn, 'w+')
-m.write("# Previews of the found files\n") 
+m.write("# Previews of the found files\n\n") 
 # initialize counts
 pr = 0
-found = 0
+counts = {text: 0 for text in find_text}
 unk = 0
 
 # Start search 
 st = time.time()
 
-print(f"===== Start Searching Files for {find_text} in {repo_name} ====")
+print(f"===== Start searching files for {find_text} in {repo_name}/{branch}/{media_path} ====")
 print(str(datetime.datetime.now()))
 
 contents = repo.get_contents(media_path)
@@ -73,7 +73,6 @@ while contents:
         contents.extend(repo.get_contents(file_content.path))
     else:
         img_url = online_url + file_content.path       
-    
         try:
             # analyze image
             result = client.analyze(
@@ -84,17 +83,19 @@ while contents:
             if result.read is not None:
                 pr += 1
                 # If find_text is found, add the image to the csv and md files
-                if result.text is not None:
+                for text in find_text:
+                    found = False
                     for line in result.read.blocks[0].lines:
-                        for text in find_text:
-                            txt_found = line.text.find(text) >= 0 if case_sensitive else line.text.lower().find(text.lower()) >= 0
-                            if txt_found :
-                                f.write(f"{text}: {img_url}")
-                                f.write("\n")
-                                m.write(f"{text}: {img_url}")
-                                m.write(f"<img src='{img_url}' width=500 >")
-                                m.write("\n\n")
-                                found += 1 
+                        txt_found = line.text.find(text) >= 0 if case_sensitive else line.text.lower().find(text.lower()) >= 0
+                        if txt_found:
+                            found = True
+                            break
+                    if found:
+                        f.write(f"{text}, {img_url}\n")
+                        m.write(f"{text}: {img_url}\n")
+                        m.write(f"<img src='{img_url}' width=500 >\n\n")
+                        print(f"FOUND {text}: {img_url}")
+                        counts[text] += 1
         except:
                 if os.path.splitext(file_content.path)[1] != '.png': # dont care about png with no text
                     f.write("unknown, " + img_url)
@@ -108,9 +109,10 @@ m.close()
 et = time.time()
 elapsed = (et - st)/60
 
-print(f"===== Done searching files for {find_text} in {repo_name} ====")
+print(f"===== Done searching files for {find_text} in {repo_name}/{branch}/{media_path} ====")
 print(f" Files processed:  {pr}")
-print(f" Files containing {find_text}: {found}")
+for text in find_text:
+    print(f" Matches for {text}: {counts[text]}")
 print(f" Files to investigate: {unk}")
 print(f" See results in {csv_fn} and {md_fn}")
 print(f" Execution time: {elapsed} minutes")
