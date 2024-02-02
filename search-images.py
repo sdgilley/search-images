@@ -3,7 +3,7 @@
 # see readme for details
 
 # This script uses the following packages:
-#     pip install --upgrade azure-cognitiveservices-vision-computervision
+#     pip install azure-ai-vision-imageanalysis
 #     pip install pillow
 #     pip install PyGithub  
 
