@@ -28,14 +28,12 @@ Modify the top part of the script to search for your own text, in your own repo.
 
     * To search from a public repo (such as azure-docs), you can leave all options unchecked.  Modify as necessary if you want to read a private repo instead.
     * Make sure to copy the token as soon as it's created.  Once you move away, you'll never see it again.
-    * AFTER you've copied the token, use the **Configure SSO** dropdown to authorize **MicrosoftDocs**.   
+    * AFTER you've copied the token, use the **Configure SSO** dropdown to authorize **MicrosoftDocs**.
 
-* Create the following environment variables to be accessed when you run the Python script:
+* Save values as [Codespace secrets](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces), with access to `sdgilley/search-images`.  (Save them as environment variables to run the code locally.)
     * `GH_ACCESS_TOKEN` - the token you created from Github
     * `COMPUTER_VISION_ENDPOINT` - the endpoint you created from the OCR Quickstart
     * `COMPUTER_VISION_SUBSCRIPTION_KEY` - the key you created from the OCR Quickstart
-
-* Use Codespaces to skip setting up your local computer - the button below creates a codespace with all required libraries installed. Save your variables as [Codespace secrets](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces), with access to sdgilley/search-images for each environment variable above.
 
     [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/sdgilley/search-images?quickstart=1)
 
@@ -47,8 +45,8 @@ Modify the top part of the script to search for your own text, in your own repo.
     pip install PyGithub  
     ```
 
-> 📘 BEFORE YOU START - Clean up your images folder!
-> 
+> ## ⚠️ BEFORE YOU START - Clean up your images folder!
+>
 > Save yourself time by first deleting images that are no longer in use.  For Microsoft articles, use the [Repo cleanup tool](https://review.learn.microsoft.com/help/contribute/clean-repo-tool?branch=main) to get rid of orphaned images.
 
 ## Run the script
