@@ -4,17 +4,17 @@
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/sdgilley/search-images?quickstart=1)
 
-(But make sure to complete the [prerequisites](#prerequisites) before trying to run the code!)
+(Make sure to complete the [prerequisites](#prerequisites) before trying to run the code!)
 
-How to solve a (not so theoretical) problem:
+### How to solve a (not so theoretical) problem:
 
 > I'm documenting a UI, and a term in the UI has changed.  How do I find all the images that use this term?  I have 100s (or even 1000s) of images, and I don't want to have to open each one!
 
-The **search-images.py** Python script searches for your text inside images. It's set up to search for images in any **media** folder inside [MicrosoftDocs/azure-docs](https://github.com/MicrosoftDocs/azure-docs).  
+The **search-images.py** Python script searches for your text inside images. It's set up to search for images in any **media** folder inside a public repository, such as [MicrosoftDocs/azure-docs](https://github.com/MicrosoftDocs/azure-docs).  
 
-The script creates a .csv file listing the files that match your search phrase, and a .md file with a preview of each image. 
+The script creates a .csv file listing the files that match your search phrase, and a .md file with a preview of each image.
 
-Modify the top part of the script to search for your own text, in your own repo.  You can also modify the script to search for multiple terms, and specify whether match the case of the search terms.
+Modify the top part of the script to search for your own text, in your own repo.  You can also modify the script to search for multiple terms, and specify whether or not the match is case sensitive.
 
 
 ## Prerequisites
