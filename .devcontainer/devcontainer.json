@@ -5,22 +5,20 @@
 	"build": { 
 		"context": "..",
 		"dockerfile": "Dockerfile"
-	},
-	{
-		"secrets": {
+		},
+	"secrets": {
 		"GH_ACCESS_TOKEN": {
-		  "description": "Your GitHub access token.",
-		  "documentationUrl": "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens"
+		"description": "Your GitHub access token.",
+		"documentationUrl": "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens"
 		},
 		"COMPUTER_VISION_ENDPOINT": {
 		  "description": "Endpoint you created from the OCR Quickstart.",
 		  "documentationUrl": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Clinux&pivots=programming-language-python"
-		},
+			},
 		"COMPUTER_VISION_SUBSCRIPTION_KEY": {
 		  "description": "Key you created from the OCR Quickstart.",
 		  "documentationUrl": "https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Clinux&pivots=programming-language-python"
-	  }
-
+		  }
 	}
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
