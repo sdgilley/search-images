@@ -9,14 +9,14 @@
 # *** PUT YOUR DETAILS HERE  *****
 
 # what to search for - can be one or more terms
-find_text = ["regression"]            # Text to find in the images.  
+find_text = ["preview"]            # Text to find in the images.  
 case_sensitive = True                    # True or False
-csv_fn = "regression.csv"          # Put results in this file
+csv_fn = "output.csv"          # Put results in this file
 
 # where to search
 repo_name = "MicrosoftDocs/azure-docs"  # repo to search
 branch = "main"
-media_path = 'articles/machine-learning/v1/media'  # point to the media dir you want to search
+media_path = 'articles/hdinsight-aks/media'  # point to the media dir you want to search
 # or here's fabric:
 # repo_name = "MicrosoftDocs/fabric-docs"
 # branch = "main"
