@@ -75,7 +75,7 @@ while contents:
         img_url = online_url + file_content.path       
         try:
             # analyze image
-            result = client.analyze(
+            result = client.analyze_from_url(
                 image_url=img_url,
                 visual_features=[VisualFeatures.READ],
             )   
