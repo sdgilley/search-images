@@ -102,6 +102,8 @@ while contents:
                     f.write("\n")
                     unk += 1
                     print("Unknown: " + img_url)
+                else:
+                    print(f"Error occurred reading image {img_url}")
                 
 f.close()
 m.close()
