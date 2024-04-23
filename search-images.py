@@ -9,14 +9,14 @@
 # *** PUT YOUR DETAILS HERE  *****
 
 # what to search for - can be one or more terms
-find_text = ["regression"]            # Text to find in the images.  
-case_sensitive = True                    # True or False
-csv_fn = "regression.csv"          # Put results in this file
+find_text = ["runtime"]            # Text to find in the images.  
+case_sensitive = False                    # True or False
+csv_fn = "runtime.csv"          # Put results in this file
 
 # where to search
 repo_name = "MicrosoftDocs/azure-docs"  # repo to search
 branch = "main"
-media_path = 'articles/machine-learning/v1/media'  # point to the media dir you want to search
+media_path = 'articles/ai-studio/media'  # point to the media dir you want to search
 # or here's fabric:
 # repo_name = "MicrosoftDocs/fabric-docs"
 # branch = "main"
@@ -75,7 +75,7 @@ while contents:
         img_url = online_url + file_content.path       
         try:
             # analyze image
-            result = client.analyze_from_url(
+            result = client.analyze(
                 image_url=img_url,
                 visual_features=[VisualFeatures.READ],
             )   

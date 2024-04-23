@@ -22,7 +22,7 @@ client = ImageAnalysisClient(
 )
 
 # Get a text for this image. This will be a synchronously (blocking) call.
-result = client.analyze_from_url(
+result = client.analyze(
     image_url="https://learn.microsoft.com/azure/ai-services/computer-vision/media/quickstarts/presentation.png",
     visual_features=[VisualFeatures.READ],
 )
