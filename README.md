@@ -30,14 +30,22 @@ Modify the top part of the script to search for your own text, in your own repo.
     * Make sure to copy the token as soon as it's created.  Once you move away, you'll never see it again.
     * AFTER you've copied the token, use the **Configure SSO** dropdown to authorize **MicrosoftDocs**.
 
-* Save values as [Codespace secrets](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces), with access to `sdgilley/search-images`.  (Save them as environment variables to run the code locally.)
+### Run on Codespaces
+
+Python installs are all done for you if you use a codespace.  But first save the above values as secrets:
+* Go to [Codespace secrets](https://github.com/settings/codespaces).
+* Save each of the following:  
     * `GH_ACCESS_TOKEN` - the token you created from Github
     * `COMPUTER_VISION_ENDPOINT` - the endpoint you created from the OCR Quickstart
     * `COMPUTER_VISION_SUBSCRIPTION_KEY` - the key you created from the OCR Quickstart
+ * Allow access to **sdgilley/search-images** for each secret.
+ * Once your secrets are saved, use the button below to open a codespace.  Use the same button later to re-open the same VM again.
 
     [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/sdgilley/search-images?quickstart=1)
 
-* If you want to run this in VS Code locally, see [Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial).  You'll need to install the following packages:
+### Run locally
+
+If you want to run this in VS Code locally instead of a Codespace, see [Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial).  Save the above secrets as environment variables, and install the following packages:
 
     ```console
     pip install --upgrade azure-cognitiveservices-vision-computervision
