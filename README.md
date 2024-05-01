@@ -24,9 +24,9 @@ Modify the top part of the script to search for your own text, in your own repo.
     * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service. Add your key and endpoint as environment variables as shown below.
     * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
 
-* Create a [GitHub personal access token (classic)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic).
+* Create a [GitHub personal access token (classic)][(https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic](https://github.com/settings/tokens)).
 
-    * To search from a public repo (such as azure-docs), you can leave all options unchecked.  Modify as necessary if you want to read a private repo instead.
+    * You can leave all options unchecked.
     * Make sure to copy the token as soon as it's created.  Once you move away, you'll never see it again.
     * AFTER you've copied the token, use the **Configure SSO** dropdown to authorize **MicrosoftDocs**.
 
