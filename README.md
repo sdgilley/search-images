@@ -69,7 +69,7 @@ If you want to run this in VS Code locally instead of a Codespace, see [Getting 
 
 Results are printed to the screen, so that you can watch the progress.  They are also added to a .csv file and a .md file (the .md file shows a preview of each image).
 
-* If the file contains the search term, it is added to the results with status showing the term found.
+* If the file contains the search term, it is added to the results with status indicating which term was found.
 * If the file can't be processed, it is added to the results with a status of "unknown".  You'll need to manually inspect these files.
 * If an image doesn't contain the search term, you won't see it it in the results.
 
