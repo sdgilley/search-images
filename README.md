@@ -39,8 +39,7 @@ Python installs are all done for you if you use a codespace.  But first save the
     * `COMPUTER_VISION_ENDPOINT` - the endpoint you created from the OCR Quickstart
     * `COMPUTER_VISION_SUBSCRIPTION_KEY` - the key you created from the OCR Quickstart
  * Allow access to **sdgilley/search-images** for each secret.
- * Once your secrets are saved, use the button below to open a codespace.  Use the same button later to re-open the same VM again.
-
+ * Once your secrets are saved, use the Codespace button to create a codespace.  Later, the same button will reconnect to the same codespace.
     [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/sdgilley/search-images?quickstart=1)
 
 ### Run locally
