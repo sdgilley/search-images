@@ -51,11 +51,14 @@ Modify the top part of the script to search for your own text, in your own repo.
 
 ## Run the script
 
-1. Edit the file **search-image.py** and fill out the `PUT YOUR DETAILS HERE` section with your values.  This is where you say what to search for, where to search, and where to write results.
+1. Edit the file **search-and-find-refs.py** and fill out the `PUT YOUR DETAILS HERE` section with your values.  This is where you say what to search for, where to search, and where to write results.
 
-1. Run **search-images.py**.
+1. Run **search-and-find-refs.py**.
     * Go grab a coffee, go to lunch, or find something else to work on.  
     * For 600 images, the script took approximately 15 minutes to complete. Your milage may vary.
+    * The script will first find the images, then search for the .md file that uses each image.  It will create a **not_found.csv** file to list the images that aren't found in an .md file.
+
+The script runs two separate functions: one to find the images, and one to search for the images in .md files.  You can run these functions separately if you want to, using **search-images.py** to find the image files and **find-refs.py**to read a csv file containing images and find the .md files that use each image.  
 
 ## Results
 
@@ -64,5 +67,4 @@ Results are printed to the screen, so that you can watch the progress.  They are
 * If the file contains the search term, it is added to the results with status showing the term found.
 * If the file can't be processed, it is added to the results with a status of "unknown".  You'll need to manually inspect these files.
 * If an image doesn't contain the search term, you won't see it it in the results.
-
-
+* Use the resulting .md file to preview all the images that contain the search term.

@@ -15,8 +15,8 @@ import os
 token =  os.environ['GH_ACCESS_TOKEN']
 g = Github(token)
 
-repo = g.get_repo("MicrosoftDocs/azure-docs")
-contents = repo.get_contents("articles/machine-learning/v1/media")
+repo = g.get_repo("MicrosoftDocs/azure-docs-pr")
+contents = repo.get_contents("articles/ai-studio/media")
 while contents:
     file_content = contents.pop(0)
     if file_content.type == "dir":
