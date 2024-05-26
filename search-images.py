@@ -12,7 +12,6 @@ csv_fn = "open-project.csv"                         # Put results in this file
 repo_name = "MicrosoftDocs/azure-docs"  # repo to search
 branch = "main"
 media_path = 'articles/ai-studio/media'  # point to the media dir you want to search
->>>>>>> 979227c004af0c9c861c74324aeb9e21c5c1db78
 # or here's fabric:
 # repo_name = "MicrosoftDocs/fabric-docs"
 # branch = "main"
