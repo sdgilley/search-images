@@ -5,13 +5,13 @@
 import search_for_images as s
 # *** PUT YOUR DETAILS HERE  *****
 # what to search for - can be one or more terms
-find_text = ["Open project in VS Code"]             # Text to find in the images.  
+find_text = ["preview"]             # Text to find in the images.  
 case_sensitive = True                               # True or False
 csv_fn = "open-project.csv"                         # Put results in this file
 # where to search
-repo_name = "MicrosoftDocs/azure-docs"  # repo to search
-branch = "main"
-media_path = 'articles/ai-studio/media'  # point to the media dir you want to search
+repo_name = "MicrosoftDocs/azure-docs-pr"  # repo to search
+branch = "remove-preview-tag"
+media_path = 'articles/hdinsight-on-aks/media'  # point to the media dir you want to search
 # or here's fabric:
 # repo_name = "MicrosoftDocs/fabric-docs"
 # branch = "main"
