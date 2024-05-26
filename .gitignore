@@ -1,6 +1,8 @@
 testing/
 results/
 archive/
+*.md
+*.csv
 # .sh files
 *.sh
 
