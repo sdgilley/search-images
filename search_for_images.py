@@ -72,7 +72,7 @@ def search_for_images(find_text, case_sensitive, csv_fn, repo_name, branch, medi
             img_url = online_url + file_content.path
             try:
                 # analyze image
-                result = client.analyze(
+                result = client.analyze_from_url(
                     image_url=img_url,
                     visual_features=[VisualFeatures.READ],
                 )
