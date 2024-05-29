@@ -63,66 +63,72 @@ def search_for_images(find_text, case_sensitive, csv_fn, repo_name, branch, medi
         f"===== Start searching files for {find_text} in {repo_name}/{branch}/{media_path} ===="
     )
     print(str(datetime.datetime.now()))
-    contents = repo.get_contents(media_path)
-    while contents:
-        file_content = contents.pop(0)
-        if file_content.type == "dir":
-            contents.extend(repo.get_contents(file_content.path))
-        else:
-            img_url = online_url + file_content.path
-            try:
-                # analyze image
-                result = client.analyze_from_url(
-                    image_url=img_url,
-                    visual_features=[VisualFeatures.READ],
-                )
-                # if there are results
-                if result.read is not None:
-                    pr += 1
-                    # If find_text is found, add the image to the csv and md files
-                    for text in find_text:
-                        found = False
-                        for line in result.read.blocks[0].lines:
+    try:
+        contents = repo.get_contents(media_path)
+        while contents:
+            file_content = contents.pop(0)
+            if file_content.type == "dir":
+                contents.extend(repo.get_contents(file_content.path))
+            else:
+                img_url = online_url + file_content.path
+                try:
+                    # analyze image
+                    result = client.analyze_from_url(
+                        image_url=img_url,
+                        visual_features=[VisualFeatures.READ],
+                    )
+                    # if there are results
+                    if result.read is not None:
+                        pr += 1
+                        # If find_text is found, add the image to the csv and md files
+                        for text in find_text:
+                            found = False
+                            for line in result.read.blocks[0].lines:
 
-                            # Case sensitive search
-                            if case_sensitive:
-                                txt_found = (
-                                    re.search(
-                                        r"\b" + re.escape(text) + r"\b", line.text
+                                # Case sensitive search
+                                if case_sensitive:
+                                    txt_found = (
+                                        re.search(
+                                            r"\b" + re.escape(text) + r"\b", line.text
+                                        )
+                                        is not None
                                     )
-                                    is not None
-                                )
-                            # Case insensitive search
-                            else:
-                                txt_found = (
-                                    re.search(
-                                        r"\b" + re.escape(text) + r"\b",
-                                        line.text,
-                                        re.IGNORECASE,
+                                # Case insensitive search
+                                else:
+                                    txt_found = (
+                                        re.search(
+                                            r"\b" + re.escape(text) + r"\b",
+                                            line.text,
+                                            re.IGNORECASE,
+                                        )
+                                        is not None
                                     )
-                                    is not None
-                                )
-                            # txt_found = line.text.find(text) >= 0 if case_sensitive else line.text.lower().find(text.lower()) >= 0
-                            if txt_found:
-                                found = True
-                                break
-                        if found:
-                            f.write(f"{text}, {img_url}\n")
-                            m.write(f"{text}: {img_url}\n")
-                            m.write(f"<img src='{img_url}' width=500 >\n\n")
-                            print(f"FOUND {text}: {img_url}")
-                            counts[text] += 1
-            except:
-                if (
-                    os.path.splitext(file_content.path)[1] != ".png"
-                ):  # dont care about png with no text
-                    f.write("unknown, " + img_url)
-                    f.write("\n")
-                    unk += 1
-                    print("Unknown: " + img_url)
-                else:
-                    print(f"Error occurred reading image {img_url}")
-
+                                # txt_found = line.text.find(text) >= 0 if case_sensitive else line.text.lower().find(text.lower()) >= 0
+                                if txt_found:
+                                    found = True
+                                    break
+                            if found:
+                                f.write(f"{text}, {img_url}\n")
+                                m.write(f"{text}: {img_url}\n")
+                                m.write(f"<img src='{img_url}' width=500 >\n\n")
+                                print(f"FOUND {text}: {img_url}")
+                                counts[text] += 1
+                except:
+                    if (
+                        os.path.splitext(file_content.path)[1] != ".png"
+                    ):  # dont care about png with no text
+                        f.write("unknown, " + img_url)
+                        f.write("\n")
+                        unk += 1
+                        print("Unknown: " + img_url)
+                    else:
+                        print(f"Error occurred reading image {img_url}")
+    except Exception as e:
+        print(f"An error occurred trying to read https://github.com/{repo_name}/tree/{branch}/{media_path}")
+        print("Check the path and the repo name.")
+        print(e)
+        return
+    
     f.close()
     m.close()
 
@@ -139,5 +145,4 @@ def search_for_images(find_text, case_sensitive, csv_fn, repo_name, branch, medi
     print(f" See results in {csv_fn} and {md_fn}")
     print(f" Execution time: {elapsed} minutes")
 
-    return
     # results are  saved in the csv and md files
