@@ -124,9 +124,9 @@ def search_for_images(find_text, case_sensitive, csv_fn, repo_name, branch, medi
                     else:
                         print(f"Error occurred reading image {img_url}")
     except Exception as e:
+        print(e)
         print(f"An error occurred trying to read https://github.com/{repo_name}/tree/{branch}/{media_path}")
         print("Check the path and the repo name.")
-        print(e)
         return
     
     f.close()
