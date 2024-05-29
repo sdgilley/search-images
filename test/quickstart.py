@@ -16,10 +16,7 @@ except KeyError:
     exit()
 
 # Create an Image Analysis client
-client = ImageAnalysisClient(
-    endpoint=endpoint,
-    credential=AzureKeyCredential(key)
-)
+client = ImageAnalysisClient(endpoint=endpoint, credential=AzureKeyCredential(key))
 
 # Get a text for this image. This will be a synchronously (blocking) call.
 result = client.analyze(

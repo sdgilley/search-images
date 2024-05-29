@@ -20,10 +20,10 @@ This script uses the following packages:
 
 
 # function searches for the text and writes results to csv and md files
-def search_for_images(find_text, case_sensitive,csv_fn, repo_name, branch, media_path):
+def search_for_images(find_text, case_sensitive, csv_fn, repo_name, branch, media_path):
     # form vars from search details above
     md_fn = csv_fn.split(".")[0] + ".md"  # Put previews in markdown file
-    online_url = f"https://raw.githubusercontent.com/{repo_name}/{branch}/" # to get raw images from the repo  
+    online_url = f"https://raw.githubusercontent.com/{repo_name}/{branch}/"  # to get raw images from the repo
 
     from azure.ai.vision.imageanalysis import ImageAnalysisClient
     from azure.ai.vision.imageanalysis.models import VisualFeatures
@@ -39,31 +39,29 @@ def search_for_images(find_text, case_sensitive,csv_fn, repo_name, branch, media
     endpoint, key, repo = get_auth_response(repo_name)
 
     # Create an Image Analysis client
-    client = ImageAnalysisClient(
-        endpoint=endpoint,
-        credential=AzureKeyCredential(key)
-    )
-
+    client = ImageAnalysisClient(endpoint=endpoint, credential=AzureKeyCredential(key))
 
     # open csv file to store results
     import csv
+
     # Write results to csv file
-    f = open(csv_fn, 'w+')
+    f = open(csv_fn, "w+")
     # write header
     f.write("status,url\n")
     # add previews to an md file
-    m = open(md_fn, 'w+')
-    m.write("# Previews of the found files\n\n") 
+    m = open(md_fn, "w+")
+    m.write("# Previews of the found files\n\n")
     # initialize counts
     pr = 0
     counts = {text: 0 for text in find_text}
     unk = 0
 
-
-    # Start search 
+    # Start search
     st = time.time()
 
-    print(f"===== Start searching files for {find_text} in {repo_name}/{branch}/{media_path} ====")
+    print(
+        f"===== Start searching files for {find_text} in {repo_name}/{branch}/{media_path} ===="
+    )
     print(str(datetime.datetime.now()))
     contents = repo.get_contents(media_path)
     while contents:
@@ -71,13 +69,13 @@ def search_for_images(find_text, case_sensitive,csv_fn, repo_name, branch, media
         if file_content.type == "dir":
             contents.extend(repo.get_contents(file_content.path))
         else:
-            img_url = online_url + file_content.path       
+            img_url = online_url + file_content.path
             try:
                 # analyze image
                 result = client.analyze(
                     image_url=img_url,
                     visual_features=[VisualFeatures.READ],
-                )   
+                )
                 # if there are results
                 if result.read is not None:
                     pr += 1
@@ -88,11 +86,23 @@ def search_for_images(find_text, case_sensitive,csv_fn, repo_name, branch, media
 
                             # Case sensitive search
                             if case_sensitive:
-                                txt_found = re.search(r'\b' + re.escape(text) + r'\b', line.text) is not None
+                                txt_found = (
+                                    re.search(
+                                        r"\b" + re.escape(text) + r"\b", line.text
+                                    )
+                                    is not None
+                                )
                             # Case insensitive search
                             else:
-                                txt_found = re.search(r'\b' + re.escape(text) + r'\b', line.text, re.IGNORECASE) is not None
-                        # txt_found = line.text.find(text) >= 0 if case_sensitive else line.text.lower().find(text.lower()) >= 0
+                                txt_found = (
+                                    re.search(
+                                        r"\b" + re.escape(text) + r"\b",
+                                        line.text,
+                                        re.IGNORECASE,
+                                    )
+                                    is not None
+                                )
+                            # txt_found = line.text.find(text) >= 0 if case_sensitive else line.text.lower().find(text.lower()) >= 0
                             if txt_found:
                                 found = True
                                 break
@@ -103,21 +113,25 @@ def search_for_images(find_text, case_sensitive,csv_fn, repo_name, branch, media
                             print(f"FOUND {text}: {img_url}")
                             counts[text] += 1
             except:
-                    if os.path.splitext(file_content.path)[1] != '.png': # dont care about png with no text
-                        f.write("unknown, " + img_url)
-                        f.write("\n")
-                        unk += 1
-                        print("Unknown: " + img_url)
-                    else:
-                        print(f"Error occurred reading image {img_url}")
-                    
+                if (
+                    os.path.splitext(file_content.path)[1] != ".png"
+                ):  # dont care about png with no text
+                    f.write("unknown, " + img_url)
+                    f.write("\n")
+                    unk += 1
+                    print("Unknown: " + img_url)
+                else:
+                    print(f"Error occurred reading image {img_url}")
+
     f.close()
     m.close()
 
     et = time.time()
-    elapsed = (et - st)/60
+    elapsed = (et - st) / 60
 
-    print(f"===== Done searching files for {find_text} in {repo_name}/{branch}/{media_path} ====")
+    print(
+        f"===== Done searching files for {find_text} in {repo_name}/{branch}/{media_path} ===="
+    )
     print(f" Files processed:  {pr}")
     for text in find_text:
         print(f" Matches for {text}: {counts[text]}")
