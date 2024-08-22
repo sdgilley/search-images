@@ -7,5 +7,5 @@ RUN if [ -f "/tmp/conda-tmp/environment.yml" ]; then umask 0002 && /opt/conda/bi
     && rm -rf /tmp/conda-tmp
 
 # [Optional] Uncomment this section to install additional OS packages.
-RUN pip install PyGithub pillow azure-ai-vision-imageanalysis azure-identity
+RUN pip install PyGithub pillow azure-ai-vision-imageanalysis azure-identity azure-cli
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
