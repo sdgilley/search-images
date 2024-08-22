@@ -19,10 +19,10 @@ Modify the top part of the script to search for your own text, in your own repo.
 
 ## Prerequisites
 
-* Create a [Computer Vision resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesComputerVision) in the Azure portal to get your key and endpoint. After it deploys, click **Go to resource**.
+* Create an [Azure AI Services resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesAllInOne) in the Azure portal. After it deploys, select **Go to resource**.
 
-    * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service. Add your key and endpoint as environment variables as shown below.
-    * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
+    * Select Access control (IAM).  Add a new role, **Cognitive Services User** (Make sure it is *User*, not *Contributor*). Assign yourself to this role.
+    * Select Overview to find the endpoint. You'll need it below.
 
 * Create a [GitHub personal access token (classic)][(https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic](https://github.com/settings/tokens)).
 
@@ -36,8 +36,7 @@ Python installs are all done for you if you use a codespace.  But first save the
 * Go to [Codespace secrets](https://github.com/settings/codespaces).
 * Save each of the following:  
     * `GH_ACCESS_TOKEN` - the token you created from Github
-    * `COMPUTER_VISION_ENDPOINT` - the endpoint you created from the OCR Quickstart
-    * `COMPUTER_VISION_SUBSCRIPTION_KEY` - the key you created from the OCR Quickstart
+    * `COMPUTER_VISION_ENDPOINT` - the endpoint from the service Overview page.
  * Allow access to **sdgilley/search-images** for each secret.
  * Once your secrets are saved, use the Codespace button to create a codespace.  Later, the same button will reconnect to the same codespace.
 
@@ -50,8 +49,15 @@ If you want to run this in VS Code locally instead of a Codespace, see [Getting 
     ```console
     pip install --upgrade azure-cognitiveservices-vision-computervision
     pip install pillow
-    pip install PyGithub  
+    pip install PyGithub
+    pip install azure-identity
     ```
+
+### Login to az
+
+* Use `az login` to log into your account.  
+* If you are in a Codespace, use `az login --use-device-code`.
+* If you have access to lots of subscriptions, make sure the default is the subscription where you created the service.  Use `az account set --subscription <SubscriptionName>` to set it if necessary.  
 
 > ## ⚠️ BEFORE YOU START - Clean up your images folder!
 >
@@ -66,7 +72,11 @@ If you want to run this in VS Code locally instead of a Codespace, see [Getting 
     * For 600 images, the script took approximately 15 minutes to complete. Your milage may vary.
     * The script will first find the images, then search for the .md file that uses each image.  It will create a **not_found.csv** file to list the images that aren't found in an .md file.
 
-The script runs two separate functions: one to find the images, and one to search for the images in .md files.  You can run these functions separately if you want to, using **search-images.py** to find the image files and **find-refs.py**to read a csv file containing images and find the .md files that use each image.  
+The script runs two separate functions: one to find the images, and one to search for the images in .md files.  
+
+You can run these functions separately if you want to, use:
+* **search-images.py** to find the image files 
+* **find-refs.py** to read a csv file containing images and find the .md files that use each image.  
 
 ## Results
 

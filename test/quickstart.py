@@ -3,25 +3,19 @@
 import os
 from azure.ai.vision.imageanalysis import ImageAnalysisClient
 from azure.ai.vision.imageanalysis.models import VisualFeatures
-from azure.core.credentials import AzureKeyCredential
+from azure.identity import DefaultAzureCredential
 
 # Set the values of your computer vision endpoint and computer vision key
 # as environment variables:
 try:
     endpoint = os.environ["COMPUTER_VISION_ENDPOINT"]
-    key = os.environ["COMPUTER_VISION_SUBSCRIPTION_KEY"]
 except KeyError:
-    print("Missing environment variable 'VISION_ENDPOINT' or 'VISION_KEY'")
-    print("Set them before running this sample.")
+    print("Missing environment variable 'VISION_ENDPOINT'")
+    print("Set it before running this sample.")
     exit()
 print(endpoint)
-cred = AzureKeyCredential(key)
-
-# # this DOES work... 
-# from azure.identity import InteractiveBrowserCredential
-# cred = InteractiveBrowserCredential()
-from azure.identity import DefaultAzureCredential
 cred = DefaultAzureCredential(exclude_interactive_browser_credential=False)
+
 # Create an Image Analysis client
 client = ImageAnalysisClient(endpoint=endpoint, credential=cred)
 
