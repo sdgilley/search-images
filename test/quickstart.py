@@ -14,16 +14,22 @@ except KeyError:
     print("Missing environment variable 'VISION_ENDPOINT' or 'VISION_KEY'")
     print("Set them before running this sample.")
     exit()
+print(endpoint)
+cred = AzureKeyCredential(key)
 
+# # this DOES work... 
+# from azure.identity import InteractiveBrowserCredential
+# cred = InteractiveBrowserCredential()
+from azure.identity import DefaultAzureCredential
+cred = DefaultAzureCredential(exclude_interactive_browser_credential=False)
 # Create an Image Analysis client
-client = ImageAnalysisClient(endpoint=endpoint, credential=AzureKeyCredential(key))
+client = ImageAnalysisClient(endpoint=endpoint, credential=cred)
 
 # Get a text for this image. This will be a synchronously (blocking) call.
-result = client.analyze(
+result = client.analyze_from_url(
     image_url="https://learn.microsoft.com/azure/ai-services/computer-vision/media/quickstarts/presentation.png",
     visual_features=[VisualFeatures.READ],
 )
-print(result)
 print("Image analysis results:")
 
 # Print text (OCR) analysis results to the console

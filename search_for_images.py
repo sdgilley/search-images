@@ -27,7 +27,7 @@ def search_for_images(find_text, case_sensitive, csv_fn, repo_name, branch, medi
 
     from azure.ai.vision.imageanalysis import ImageAnalysisClient
     from azure.ai.vision.imageanalysis.models import VisualFeatures
-    from azure.core.credentials import AzureKeyCredential
+    from azure.identity import DefaultAzureCredential
     import os
     import re
 
@@ -36,10 +36,11 @@ def search_for_images(find_text, case_sensitive, csv_fn, repo_name, branch, medi
     from auth import get_auth_response
 
     # get vision tokens and the repo
-    endpoint, key, repo = get_auth_response(repo_name)
-
+    endpoint, repo = get_auth_response(repo_name)
+    cred = DefaultAzureCredential(exclude_interactive_browser_credential=False)
     # Create an Image Analysis client
-    client = ImageAnalysisClient(endpoint=endpoint, credential=AzureKeyCredential(key))
+    client = ImageAnalysisClient(endpoint=endpoint, credential=cred)
+
 
     # open csv file to store results
     import csv
@@ -145,4 +146,24 @@ def search_for_images(find_text, case_sensitive, csv_fn, repo_name, branch, medi
     print(f" See results in {csv_fn} and {md_fn}")
     print(f" Execution time: {elapsed} minutes")
 
-    # results are  saved in the csv and md files
+    # results are  saved in the csv and md file
+# test the function
+if __name__ == "__main__":
+    # *** PUT YOUR DETAILS HERE  *****
+    # what to search for - can be one or more terms
+    find_text = ["Data Factory"]  # Text to find in the images.
+    case_sensitive = True  # True or False
+    csv_fn = "fabric-switcher.csv"  # Put results in this file
+    # where to search
+    # repo_name = "MicrosoftDocs/azure-docs"  # repo to search
+    # branch = "main"
+    # media_path = "articles/machine-learning/v1/media"  # point to the media dir you want to search
+    # or here's fabric:
+    repo_name = "MicrosoftDocs/fabric-docs"
+    branch = "main"
+    media_path = 'docs/data-science/media'
+
+    # *** END OF SEARCH DETAILS ***
+
+    # search for the images and create csv and md files with the results
+    search_for_images(find_text, case_sensitive, csv_fn, repo_name, branch, media_path)

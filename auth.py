@@ -26,10 +26,5 @@ def get_auth_response(repo_name):
         print("Please set COMPUTER_VISION_ENDPOINT environment variable")
         sys.exit()
 
-    try:
-        subscription_key = os.environ["COMPUTER_VISION_SUBSCRIPTION_KEY"]
-    except:
-        print("Please set COMPUTER_VISION_SUBSCRIPTION_KEY environment variable")
-        sys.exit()
     # *** End of Authenticate - you're now ready to run the script.
-    return (endpoint, subscription_key, repo)
+    return (endpoint, repo)
