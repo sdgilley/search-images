@@ -2,8 +2,9 @@ name: myenv
 channels:
   - defaults
 dependencies:
-  - python=3.8
+  - python=3.10
   - pip:
     - PyGithub
     - pillow
     - azure-cognitiveservices-vision-computervision
+    - azure-identity
