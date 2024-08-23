@@ -7,13 +7,12 @@ input: terms_images - dictionary of terms and images
 output: result - list of tuples with term, image, and md file
 """
 
-
 # search for md files that include images from the .csv file
 
 
 def search_md_files(terms_images, repo_name, repo_branch, path_in_repo):
     import os
-    import gh_auth as a
+    import helpers.gh_auth as a
 
     # connect to docs
     repo = a.connect_repo(repo_name)

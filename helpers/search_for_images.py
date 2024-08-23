@@ -1,5 +1,5 @@
 """
-Function to search for images in a reporitory
+Function to search for images in a repository
 input: find_text - list of text to find in the images
             case_sensitive - True or False
             csv_fn - csv file to write results
@@ -18,11 +18,19 @@ This script uses the following packages:
     pip install PyGithub  
 """
 
-
 # function searches for the text and writes results to csv and md files
-def search_for_images(find_text, case_sensitive, csv_fn, repo_name, branch, media_path):
+def search_for_images(find_text, case_sensitive, basename, repo_name, branch, media_path):
+    import os
     # form vars from search details above
-    md_fn = csv_fn.split(".")[0] + ".md"  # Put previews in markdown file
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    parent_dir = os.path.dirname(script_dir)  # go up one directory from script_dir
+    output_dir = os.path.join(parent_dir, "outputs")  # add "outputs" to the parent directory
+    # Ensure the output directory exists
+    os.makedirs(output_dir, exist_ok=True)
+    # results go in the output directory
+    csv_fn = os.path.join(output_dir, f"{basename}.csv")  # csv file with terms and images
+    md_fn = os.path.join(output_dir, f"{basename}.md")  # write results in md file
+
     online_url = f"https://raw.githubusercontent.com/{repo_name}/{branch}/"  # to get raw images from the repo
 
     from azure.ai.vision.imageanalysis import ImageAnalysisClient
@@ -33,7 +41,7 @@ def search_for_images(find_text, case_sensitive, csv_fn, repo_name, branch, medi
 
     import time
     import datetime
-    from auth import get_auth_response
+    from helpers.auth import get_auth_response
 
     # get vision tokens and the repo
     endpoint, repo = get_auth_response(repo_name)
@@ -145,25 +153,6 @@ def search_for_images(find_text, case_sensitive, csv_fn, repo_name, branch, medi
     print(f" Files to investigate: {unk}")
     print(f" See results in {csv_fn} and {md_fn}")
     print(f" Execution time: {elapsed} minutes")
-
+    return(csv_fn)
     # results are  saved in the csv and md file
-# test the function
-if __name__ == "__main__":
-    # *** PUT YOUR DETAILS HERE  *****
-    # what to search for - can be one or more terms
-    find_text = ["Data Factory"]  # Text to find in the images.
-    case_sensitive = True  # True or False
-    csv_fn = "fabric-switcher.csv"  # Put results in this file
-    # where to search
-    # repo_name = "MicrosoftDocs/azure-docs"  # repo to search
-    # branch = "main"
-    # media_path = "articles/machine-learning/v1/media"  # point to the media dir you want to search
-    # or here's fabric:
-    repo_name = "MicrosoftDocs/fabric-docs"
-    branch = "main"
-    media_path = 'docs/data-science/media'
 
-    # *** END OF SEARCH DETAILS ***
-
-    # search for the images and create csv and md files with the results
-    search_for_images(find_text, case_sensitive, csv_fn, repo_name, branch, media_path)
