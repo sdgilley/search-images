@@ -18,12 +18,16 @@ Modify the top part of the script to search for your own text (one or more terms
 
 Scroll down to the last line - comment it out to save some time, or uncomment it to add additional a search of the files in the repo that use the images.  This will add an additional column to the .csv file, and a link to the .md file that uses the image.  You'll also get a -not-found.csv file with a list of the images that weren't found in any .md files.
 
+## Authentication
+
+I've gotten this to work with both Entra ID and Key authentication.  But when creating the resource on my BAMI account, I wasn't able to get access with Entra ID, while I was with key.  The default for now is Key.  You can switch it in the **search-images.py** file.  Instructions below include setup for both methods.
+
 ## Prerequisites
 
 * Create an [Azure AI Services resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesAllInOne) in the Azure portal. After it deploys, select **Go to resource**.
 
-    * Select Access control (IAM).  Add a new role, **Cognitive Services User** (Make sure it is *User*, not *Contributor*). Assign yourself to this role.
-    * Select Overview to find the endpoint. You'll need it below.
+    * To use Entra ID: Select Access control (IAM).  Add a new role, **Cognitive Services User** (Make sure it is *User*, not *Contributor*). Assign yourself to this role. (This step necessary only if using Entra ID authentication.  Ignore for key authentication.)
+    * Select Overview to find the endpoint. You'll need it below, for either type of authentication.
 
 * Create a [GitHub personal access token (classic)][(https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic](https://github.com/settings/tokens)).
 
@@ -31,7 +35,7 @@ Scroll down to the last line - comment it out to save some time, or uncomment it
     * Make sure to copy the token as soon as it's created.  Once you move away, you'll never see it again.
     * AFTER you've copied the token, use the **Configure SSO** dropdown to authorize **MicrosoftDocs**.
 
-* Login to CLI
+* Login to CLI (Needed for Entra ID authentication)
 
     * Use `az login` to log into your account.  
     * If you are in a Codespace, use `az login --use-device-code`.
@@ -46,6 +50,7 @@ Python installs are all done for you if you use a codespace.  But first save the
 * Save each of the following:  
     * `GH_ACCESS_TOKEN` - the token you created from Github
     * `COMPUTER_VISION_ENDPOINT` - the endpoint from the service Overview page.
+    * If using key authentication: `COMPUTER_VISION_SUBSCRIPTION_KEY` - the key from the service Keys page.
  * Allow access to **sdgilley/search-images** for each secret.
  * Once your secrets are saved, use the Codespace button to create a codespace.  Later, the same button will reconnect to the same codespace.
 

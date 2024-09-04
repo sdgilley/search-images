@@ -82,16 +82,3 @@ def find_refs(image_fn, repo_name, repo_branch, path_in_repo, result_basename):
     elapsed = (et - st) / 60
     print(f" Execution time: {elapsed} minutes")
 
-# test the function
-if __name__ == "__main__":
-    ##################### INPUT HERE ############################
-    csv_fn = "images.csv" 
-    # Name the path to your repo. 
-    repo_name = "MicrosoftDocs/azure-docs"
-    repo_branch = "main"
-    path_in_repo = "articles/ai-studio" # where the md files are
-    ##################### END INPUT ################
-
-    result_basename = os.path.basename(csv_fn).split(".")[0]
-    # run the function
-    find_refs(csv_fn, repo_name, repo_branch, path_in_repo, result_basename)

@@ -23,7 +23,8 @@ path_in_repo = "docs/data-science"  # where the md files are
 media_path = f"{path_in_repo}/media"
 
 import os
+auth = "key" # set to any other value to use Entra ID
 # search for the images and create initial csv and md files with the results
-csv_fn = s.search_for_images(find_text, case_sensitive, ref_basename, repo_name, branch, media_path)
+csv_fn = s.search_for_images(find_text, case_sensitive, ref_basename, repo_name, branch, media_path, auth)
 # Uncomment the next line if you want to also find the .md file that references each image
 f.find_refs(csv_fn, repo_name, branch, path_in_repo, ref_basename)

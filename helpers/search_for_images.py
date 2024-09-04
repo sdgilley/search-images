@@ -19,7 +19,7 @@ This script uses the following packages:
 """
 
 # function searches for the text and writes results to csv and md files
-def search_for_images(find_text, case_sensitive, basename, repo_name, branch, media_path):
+def search_for_images(find_text, case_sensitive, basename, repo_name, branch, media_path, auth="key"):
     import os
     # form vars from search details above
     script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -36,6 +36,7 @@ def search_for_images(find_text, case_sensitive, basename, repo_name, branch, me
     from azure.ai.vision.imageanalysis import ImageAnalysisClient
     from azure.ai.vision.imageanalysis.models import VisualFeatures
     from azure.identity import DefaultAzureCredential
+    from azure.core.credentials import AzureKeyCredential
     import os
     import re
 
@@ -43,15 +44,21 @@ def search_for_images(find_text, case_sensitive, basename, repo_name, branch, me
     import datetime
     from helpers.auth import get_auth_response
 
-    # get vision tokens and the repo
     endpoint, repo = get_auth_response(repo_name)
-    cred = DefaultAzureCredential(exclude_interactive_browser_credential=False)
-    # Create an Image Analysis client
-    client = ImageAnalysisClient(endpoint=endpoint, credential=cred)
+    # get vision tokens and the repo
+    if auth=="key":
+        key = os.environ["COMPUTER_VISION_SUBSCRIPTION_KEY"]
+        client = ImageAnalysisClient(
+            endpoint=endpoint,
+            credential=AzureKeyCredential(key)
+        )
+    else:
+        cred = DefaultAzureCredential(exclude_interactive_browser_credential=False)
+        # Create an Image Analysis client
+        client = ImageAnalysisClient(endpoint=endpoint, credential=cred)
 
 
     # open csv file to store results
-    import csv
 
     # Write results to csv file
     f = open(csv_fn, "w+")
@@ -123,15 +130,11 @@ def search_for_images(find_text, case_sensitive, basename, repo_name, branch, me
                                 print(f"FOUND {text}: {img_url}")
                                 counts[text] += 1
                 except:
-                    if (
-                        os.path.splitext(file_content.path)[1] != ".png"
-                    ):  # dont care about png with no text
-                        f.write("unknown, " + img_url)
-                        f.write("\n")
-                        unk += 1
-                        print("Unknown: " + img_url)
-                    else:
-                        print(f"Error occurred reading image {img_url}")
+                    f.write("unknown, " + img_url)
+                    f.write("\n")
+                    unk += 1
+                    print("Unknown: " + img_url)
+
     except Exception as e:
         print(e)
         print(f"An error occurred trying to read https://github.com/{repo_name}/tree/{branch}/{media_path}")
