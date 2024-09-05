@@ -35,7 +35,7 @@ I've gotten this to work with both Entra ID and Key authentication.  But when cr
     * Make sure to copy the token as soon as it's created.  Once you move away, you'll never see it again.
     * AFTER you've copied the token, use the **Configure SSO** dropdown to authorize **MicrosoftDocs**.
 
-* Login to CLI (Needed for Entra ID authentication)
+* Login to CLI (Needed only when using Entra ID authentication)
 
     * Use `az login` to log into your account.  
     * If you are in a Codespace, use `az login --use-device-code`.
