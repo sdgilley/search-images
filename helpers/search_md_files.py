@@ -30,6 +30,10 @@ def search_md_files(terms_images, repo_name, repo_branch, path_in_repo):
             for image, term in terms_images.items():
                 image_base = os.path.basename(image)
                 if image_base in content:
+                    # get author from the ms.author: metadata
+                    author = ""
+                    if "ms.author:" in content:
+                        author = content.split("ms.author:")[1].split("\n")[0].strip()
                     file = f"https://github.com/{repo.full_name}/blob/{repo_branch}/{content_file.path}"
-                    result.append((term, image, file))
+                    result.append((term, image, file, author))
     return result

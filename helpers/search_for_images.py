@@ -130,8 +130,9 @@ def search_for_images(find_text, case_sensitive, basename, repo_name, branch, me
                                 print(f"FOUND {text}: {img_url}")
                                 counts[text] += 1
                 except:
-                    f.write("unknown, " + img_url)
-                    f.write("\n")
+                    f.write(f"UNKNOWN, {img_url}\n")
+                    m.write(f"{text}: {img_url}\n")
+                    m.write(f"<img src='{img_url}' width=500 >\n\n")
                     unk += 1
                     print("Unknown: " + img_url)
 

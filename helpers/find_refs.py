@@ -17,6 +17,7 @@ import datetime
 import csv
 import os
 import helpers.search_md_files as s
+import pandas as pd
 
 
 # read the images results and find the .md files that use them.  Write unused images to a file
@@ -35,16 +36,8 @@ def find_refs(image_fn, repo_name, repo_branch, path_in_repo, result_basename):
     not_found_fn = os.path.join(output_dir, f"{result_basename}-not-found.csv")  # write not found images
     
     # Step 1: Read the .csv file with terms and images from image_fn
-    terms_images = {}
-    with open(image_fn, "r") as f:
-        reader = csv.reader(f)
-        next(reader)  # skip the first line
-        for row in reader:
-            (
-                term,
-                image,
-            ) = row  # assuming term is in the first column and image is in the second column
-            terms_images[image] = term
+    df = pd.read_csv(image_fn)
+    terms_images = dict(zip(df.iloc[:, 1], df.iloc[:, 0]))
 
     # Step 2: Search for the images in the .md files in the repo
     # Start search
@@ -58,13 +51,13 @@ def find_refs(image_fn, repo_name, repo_branch, path_in_repo, result_basename):
     # Step 3: Write the result to a .csv file
     with open(result_csv, "w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["term", "image_file", "md_file"])
+        writer.writerow(["term", "image_file", "md_file", "author"])
         for row in result:
             writer.writerow(row)
     # write the md file as well
     with open(result_md, "w", newline="") as m:
         for row in result:
-            term, image, file = row
+            term, image, file, author = row
             m.write(f"{term}: {image} in {file}\n")
             m.write(f"<img src='{image}' width=500 >\n\n")
 
